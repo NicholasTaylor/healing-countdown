@@ -47,8 +47,10 @@ export default function rootReducer(state = initState, action) {
 		const todayDate = new Date();
 		const totalRange = Math.abs(endDate - startDate);
 		const totalElapsed = Math.abs(todayDate -startDate);
-		const totalRemaining = timeRemaining((totalRange - totalElapsed));
-		const percentComplete = Math.round((totalElapsed / totalRange) * 10000) / 100;
+		const totalRemainingRaw = totalRange - totalElapsed;
+		const totalRemaining = totalRemainingRaw > 0 ? timeRemaining(totalRemainingRaw) : '0 seconds' ;
+		const percentCompleteRaw = Math.round((totalElapsed / totalRange) * 10000) / 100;
+		const percentComplete = percentCompleteRaw < 100 ? percentCompleteRaw : 100;
 		const percentCompleteVW = Math.round((percentComplete / 100) * 50);
 		const percentRemainVW = 50 - percentCompleteVW;
 		return Object.assign({},state,{	
@@ -57,18 +59,6 @@ export default function rootReducer(state = initState, action) {
 			percentComplete: percentComplete,
 			totalRemaining: totalRemaining
 		});
-
-		/*var loadDiv = document.getElementById('loadNum');
-		var loadRect = document.getElementsByClassName('loadRect');
-		var timeRemainingValue = document.getElementById('timeRemainingValue');
-		var loadElapsed = loadRect[0];
-		var loadRemain = loadRect[1];
-		loadElapsed.setAttribute('width', percentCompleteVW +'vw');
-		loadRemain.setAttribute('width', percentRemainVW +'vw');
-		loadRemain.setAttribute('x', percentCompleteVW +'vw');
-		loadNum.innerText = percentComplete +'%';
-		timeRemainingValue.innerText = totalRemaining;*/
-
 	}
 	return state;
 }
