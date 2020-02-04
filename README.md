@@ -1,5 +1,4 @@
 # healing-countdown
-_Life should be simpler. So should finding a CitiBike._
 
 **Live Demo:** [http://nicholastaylor.org/demos/healing-countdown/](http://nicholastaylor.org/demos/healing-countdown/)
 
