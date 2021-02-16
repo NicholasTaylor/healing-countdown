@@ -3,10 +3,9 @@ import {Config} from '../constants/config.js';
 
 function Fonts (){
 	return(
-		<link 
-			rel="stylesheet" 
-			href="{Config.fontCSS}"
-		/>
+		<style>
+			@import url({Config.fontCSS});
+	  	</style>
 	);
 }
 

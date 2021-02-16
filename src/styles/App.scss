@@ -1,0 +1,75 @@
+html, body {
+    background: linear-gradient(315deg, #383C5F, #B27266, #FDC58D);
+    font-size: 100%;
+    color: white;
+    font-family: proxima-nova, 'helvetica neue', helvetica, arial, sans-serif;
+    width: 100%;
+    height: 100%;
+  }
+
+.c-loadingBar {
+    width: 90vw;
+    position: relative;
+    left: 50%;
+    top: 50vh;
+    transform: translate(-50%,-50%);
+    font-size: 1rem;
+    font-weight: 100;
+    &__loadingMessage {
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    &__currentProgress {
+        padding: .25em 0;
+    }
+    &__currentTitle {
+        font-weight: 500;
+        font-size: 1.25rem;
+    }
+    &__bar {
+        border-radius: 1.5rem;
+        border: 3px solid white;
+    }
+    &__percentComplete {
+        position: absolute;
+        font-weight: 600;
+        right: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    &__barComplete {
+        height: 8vh;
+        min-height: 45px;
+        svg {
+            width: calc(100% - 8px);
+            height: calc(100% - 12px);
+            margin: 6px 0 0 4px;
+            rect {
+                fill: white;
+            }
+        }
+    }
+    &__remaining {
+        padding: .25em 0;
+    }
+    &__remainingTitle {
+        font-weight: 500;
+        font-size: 1.25rem;
+    }
+}
+
+@media screen and (min-width:481px){
+    .c-loadingBar {
+        width: 80vw;
+        font-size: 1.5rem;
+        &__loadingMessage {
+            font-size: 2rem;
+        }
+        &__currentTitle {
+            font-size: 1.75rem;
+        }
+        &__remainingTitle {
+            font-size: 1.75rem;
+        }
+    }
+}

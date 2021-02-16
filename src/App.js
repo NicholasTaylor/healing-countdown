@@ -1,7 +1,6 @@
 import React from 'react';
 import {Config} from './constants/config';
 import Fonts from './components/Fonts';
-import './App.css';
 import {update_timer} from './actions/index';
 import {connect} from 'react-redux';
 
@@ -15,48 +14,68 @@ class App extends React.Component {
   }
   render(){
     return (
-      <div>
+      <div
+        className="l-container c-loadingBar"
+      >
         <Fonts/>
-        <h1>
+        <div
+          className="c-loadingBar__loadingMessage"
+        >
           {Config.loadingMessage}
-        </h1>
-        <div id="currentProgress">
-          <h2>
+        </div>
+        <div
+          className="c-loadingBar__currentProgress"
+        >
+          <div
+            className="c-loadingBar__currentTitle"
+          >
             Current Progress
-          </h2>
-          <div id="rectLoad">
-            <p id="loadNum">
+          </div>
+          <div
+            className="c-loadingBar__bar"
+          >
+            <div
+              className="c-loadingBar__percentComplete"
+            >
               {this.props.percentComplete}%
-            </p>
-            <svg width="50vw" height="6vh">
-              <g transform="translate(0,0)">
-                <rect 
-                  className="loadRect" 
-                  x="0vw" 
-                  y="0" 
-                  height="6vh" 
-                  style={{'fillOpacity': 0.75,'width':this.props.percentCompleteVW}}
+            </div>
+            <div
+              className="c-loadingBar__barComplete"
+            >
+              <svg>
+                <g 
+                  transform="translate(0,0)"
                 >
-                </rect>
-                <rect 
-                  className="loadRect" 
-                  x={this.props.percentCompleteVW} 
-                  y="0" 
-                  height="6vh" 
-                  style={{'fillOpacity': 0.25,'width':this.props.percentRemainVW}}
-                >
-                </rect>
-              </g>
-            </svg>
+                  <rect 
+                    x="0" 
+                    y="0" 
+                    rx="1rem"
+                    ry="1rem"
+                    height="100%" 
+                    style={{
+                      'fillOpacity': 0.75,
+                      'width':`${this.props.percentComplete}%`
+                    }}
+                  >
+                  </rect>
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
-        <div id="timeRemaining">
-          <h2>
+        <div 
+          className="c-loadingBar__remaining"
+        >
+          <div
+            className="c-loadingBar__remainingTitle"
+          >
             Estimated Time Remaining
-          </h2>
-          <p id="timeRemainingValue">
-          {this.props.totalRemaining}
-          </p>
+          </div>
+          <div 
+            className="c-loadingBar__remainingValue"
+          >
+            {this.props.totalRemaining}
+          </div>
         </div>
       </div>
     );
@@ -65,8 +84,6 @@ class App extends React.Component {
 
 function MapStateToProps (state) {
   return {
-    percentCompleteVW: state.percentCompleteVW,
-    percentRemainVW: state.percentRemainVW,
     percentComplete: state.percentComplete,
     totalRemaining: state.totalRemaining
   }

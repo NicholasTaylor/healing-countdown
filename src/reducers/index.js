@@ -2,10 +2,16 @@ import {UPDATE_TIMER} from '../constants/action-types';
 import {Config} from '../constants/config';
 
 const initState = {
-	percentCompleteVW: '25vw',
-	percentRemainVW: '25vw',
 	percentComplete: 25,
 	totalRemaining: ''
+}
+
+const getDemoEnd = () => {
+	let now = new Date();
+	let [newMonth, newDate] = now.getDate() >= 15 ? [now.getMonth() + 2, 1] : [now.getMonth() + 1, 15];
+	let newYear;
+	[newYear, newMonth] = newMonth > 11 ? [now.getFullYear() + 1, newMonth - 12] : [now.getFullYear(), newMonth];
+	return new Date(newYear, newMonth, newDate, 12);
 }
 
 export default function rootReducer(state = initState, action) {
@@ -19,43 +25,22 @@ export default function rootReducer(state = initState, action) {
 			const minutes = Math.floor(millisecs/60000) - Math.floor(runningCount/60000);
 			runningCount += (minutes * 60000);
 			const seconds = Math.floor(millisecs/1000) - Math.floor(runningCount/1000);
-			if (days > 0){
-				var daysText = days + ' days ';
-			} else {
-				var daysText = '';
+			const dispUnit = (unit, txt) => {
+				return `${unit}${txt}`;
 			}
-			if (hours > 0){
-				var hoursText = hours + ' hours ';
-			} else {
-				var hoursText = '';
-			}
-			if (minutes > 0){
-				var minutesText = minutes + ' minutes ';
-			} else {
-				var minutesText = '';
-			}
-			if (seconds > 0){
-				var secondsText = seconds + ' seconds';
-			} else {
-				var secondsText = '';
-			}
-			return daysText + hoursText + minutesText + secondsText;
+			return `${dispUnit(days,'d')}, ${dispUnit(hours,'h')}, ${dispUnit(minutes,'m')}, ${dispUnit(seconds,'s')}`;
 		}
 
-		const startDate = new Date(Config.startDate);
-		const endDate = new Date(Config.endDate);
+		const endDate = !(Config.demoMode) ? new Date(Config.endDate) : getDemoEnd();
+		const startDate = !(Config.demoMode) ? new Date(Config.startDate) : (endDate - 5184000000);
 		const todayDate = new Date();
 		const totalRange = Math.abs(endDate - startDate);
 		const totalElapsed = Math.abs(todayDate -startDate);
-		const totalRemainingRaw = totalRange - totalElapsed;
-		const totalRemaining = totalRemainingRaw > 0 ? timeRemaining(totalRemainingRaw) : '0 seconds' ;
-		const percentCompleteRaw = Math.round((totalElapsed / totalRange) * 10000) / 100;
-		const percentComplete = percentCompleteRaw < 100 ? percentCompleteRaw : 100;
-		const percentCompleteVW = Math.round((percentComplete / 100) * 50);
-		const percentRemainVW = 50 - percentCompleteVW;
+		let totalRemaining = totalRange - totalElapsed;
+		totalRemaining = totalRemaining > 0 ? timeRemaining(totalRemaining) : '0 seconds' ;
+		let percentComplete = Math.round((totalElapsed / totalRange) * 10000) / 100;
+		percentComplete = percentComplete < 100 ? percentComplete : 100;
 		return Object.assign({},state,{	
-			percentCompleteVW: percentCompleteVW + 'vw',
-			percentRemainVW: percentRemainVW +'vw',
 			percentComplete: percentComplete,
 			totalRemaining: totalRemaining
 		});
